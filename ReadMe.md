@@ -11,18 +11,21 @@ You can set it up in a new directory, by using these commands:
 ```bash
 npm init --yes
 npm i -D typescript ts-node mocha
-npm i -D @tsconfig/node16 @types/mocha @types/node eslint-config-salt-typescript
+npm i -D @types/mocha @types/node eslint-config-salt-typescript
 mkdir src
 touch src/index.ts
 touch src/index.test.ts
 
 echo "{
-  \"extends\": \"@tsconfig/node16/tsconfig.json\",
   \"compilerOptions\": {
+    \"module\": \"NodeNext\",
+    \"moduleResolution\": \"NodeNext\",
+    \"sourceMap\": true,
+    \"target\": \"ES2015\",
     \"outDir\": \"dist\"
   },
   \"include\": [\"src\"],
-  \"exclude\": [\"node_modules\"]
+  \"exclude\": [\"node_modules\"],
 }" > tsconfig.json
 
 echo "{
@@ -30,14 +33,13 @@ echo "{
   \"parserOptions\": {
     \"project\": \"tsconfig.json\"
   }
-}
-" > .estlintrc
+}" > .eslintrc
 
-npx scradd . "test" "mocha -r ts-node/register src/**/*.test.ts" -o
-npx scradd . dev "ts-node src/index.ts"
-npx scradd . build tsc
-npx scradd . lint "eslint ./src/**/*.ts"
-npx gitignore node
+npx --yes scradd . "test" "mocha -r ts-node/register src/**/*.test.ts" -o
+npx --yes scradd . dev "ts-node ./src/index.ts"
+npx --yes scradd . build "tsc ./src/index.ts"
+npx --yes scradd . lint "eslint ./src/**/*.ts"
+npx --yes gitignore node
 ```
 
 ## Verifying setup

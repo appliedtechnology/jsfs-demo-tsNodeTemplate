@@ -13,6 +13,7 @@ describe('ts tests', () => {
     const result = greet(name, birthYear);
 
     // assert
-    assert.strictEqual(result, 'Hello Marcus, you are 50 years old');
+    const currentAge = new Date().getFullYear() - birthYear;
+    assert.strictEqual(result, `Hello Marcus, you are ${currentAge} years old`);
   });
 });
